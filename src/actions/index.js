@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { config } from '../../config';
 import { browserHistory } from 'react-router';
-import { AUTH_USER } from './types';
+import { AUTH_USER, AUTH_ERROR } from './types';
 
 //TODO: updating auth state
 export function signInUser( { email, password } ){
@@ -20,11 +20,18 @@ export function signInUser( { email, password } ){
         .catch( () => {
             // if auth is bad then
             // present error message
-
+            dispatch(authError('Bad Login Info'));
         });
 
 
 
     }
         
+}
+
+export function authError(error){
+    return {
+        type: AUTH_ERROR,
+        payload: error
+    };
 }
