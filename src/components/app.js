@@ -6,8 +6,9 @@ export default class App extends Component {
     return (
       <div>
         <Header />
-        &nbsp;
-        {this.props.children}
+        <div className='row'>
+          {this.props.children}
+        </div>
       </div>
     );
   }
