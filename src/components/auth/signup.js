@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
+import * as actions from '../../../src/actions';
 
 class Signup extends Component{
     handleFormSubmit({ email, password }){
-        console.log('EMAIL/PWD',{email, password});
+        this.props.signUpUser({ email, password });
+
     }
+
+    renderAlert(){
+        if(this.props.errorMessage){
+            return (
+                <div className='alert alert-danger'><strong>Oops!</strong>{ this.props.errorMessage }</div>
+            );
+        }
+    }
+
     render(){
         const { handleSubmit, fields: {email, password, passwordConfirm} } = this.props;
 
@@ -25,6 +36,7 @@ class Signup extends Component{
                     <input {...passwordConfirm} type='password' className='form-control' />
                     { passwordConfirm.touched &&passwordConfirm.error && <div className='text-danger'>{passwordConfirm.error}</div> }
                 </div>
+                { this.renderAlert() }
                 <button type='submit' className='btn btn-primary'>Sign up</button>
             </form>
         );
@@ -54,8 +66,12 @@ function validate(formTypes){
     return errors;
 }
 
+function mapStateToProps( state ){
+    return { errorMessage: state.auth.error };
+}
+
 export default reduxForm({
     form: 'signup',
     fields: ['email', 'password', 'passwordConfirm'],
     validate
-})(Signup);
+}, mapStateToProps, actions )(Signup);

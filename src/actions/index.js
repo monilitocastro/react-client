@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { config } from '../../config';
 import { browserHistory } from 'react-router';
-import { AUTH_USER, AUTH_ERROR } from './types';
+import { AUTH_USER, AUTH_ERROR, SIGNOUT_USER } from './types';
 
 //TODO: updating auth state
 export function signInUser( { email, password } ){
@@ -27,6 +27,36 @@ export function signInUser( { email, password } ){
 
     }
         
+}
+
+export function signUpUser( { email, password } ){
+    return function(dispatch){
+        axios.post(`${config.API_ROOT_URL}/signup`, {email, password})
+        .then( response => {
+            dispatch({ type: AUTH_USER });
+
+            localStorage.setItem( 'token', response.data.token );
+
+            browserHistory.push('/feature');
+        } )
+        .catch( (err) => {
+            console.log('ERR: ',err);
+            dispatch(authError('Sign up error'));
+        } );
+    }
+}
+
+export function signOutUser( ){
+    return function(dispatch){
+        dispatch( { type: SIGNOUT_USER });
+
+        localStorage.removeItem('token');
+
+        setTimeout( () => {
+            browserHistory.push('/');
+        }, 500);
+
+    }
 }
 
 export function authError(error){
