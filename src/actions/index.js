@@ -39,9 +39,9 @@ export function signUpUser( { email, password } ){
 
             browserHistory.push('/feature');
         } )
-        .catch( (err) => {
-            console.log('ERR: ',err);
-            dispatch(authError('Sign up error'));
+        .catch( (response) => {
+            // console.log('ERR: ', response.statusText);
+            dispatch(authError( 'Sign up error' ));
         } );
     }
 }

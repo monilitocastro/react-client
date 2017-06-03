@@ -2,7 +2,8 @@ import {
     AUTH_USER,
     UNAUTH_USER,
     AUTH_ERROR,
-    SIGNOUT_USER
+    SIGNOUT_USER,
+    UPDATE_AUTH
 } from '../../src/actions/types';
 
 export function authReducers(state = {}, action){
@@ -13,6 +14,8 @@ export function authReducers(state = {}, action){
             return { ...state, authenticated: false };
         case SIGNOUT_USER:
             return { ...state, authenticated: false };
+        case UPDATE_AUTH:
+            return { ...state, authenticated: action.payload };
         case AUTH_ERROR:
             return { ...state, error: action.payload };
         default:
