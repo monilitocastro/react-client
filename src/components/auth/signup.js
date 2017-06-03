@@ -11,7 +11,7 @@ class Signup extends Component{
     renderAlert(){
         if(this.props.errorMessage){
             return (
-                <div className='alert alert-danger'><strong>Oops!</strong>{ this.props.errorMessage }</div>
+                <div className='alert alert-danger'><strong>Oops!</strong> { this.props.errorMessage }</div>
             );
         }
     }
@@ -21,21 +21,21 @@ class Signup extends Component{
 
         return(
             <form onSubmit={ handleSubmit(this.handleFormSubmit.bind(this)) } >
-                <div className='form-group'>
+                <fieldset className='form-group'>
                     <label htmlFor='email'>Email:</label>
                     <input {...email} type='email' className='form-control' />
                     { email.touched && email.error && <div className='text-danger'>{email.error}</div> }
-                </div>
-                <div className='form-group'>
+                </fieldset>
+                <fieldset className='form-group'>
                     <label htmlFor='password'>Password:</label>
                     <input {...password} type='password' className='form-control' />
                     { password.touched && password.error && <div className='text-danger'>{password.error}</div> }
-                </div>
-                <div className='form-group'>
+                </fieldset>
+                <fieldset className='form-group'>
                     <label htmlFor='passwordConfirm'>Confirm Password:</label>
                     <input {...passwordConfirm} type='password' className='form-control' />
                     { passwordConfirm.touched &&passwordConfirm.error && <div className='text-danger'>{passwordConfirm.error}</div> }
-                </div>
+                </fieldset>
                 { this.renderAlert() }
                 <button type='submit' className='btn btn-primary'>Sign up</button>
             </form>

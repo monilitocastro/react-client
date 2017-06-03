@@ -34,7 +34,6 @@ class Header extends Component{
 }
 
 const mapStateToProps = (state) => {
-        // console.log('STATEAUTH: ', state.auth);
     return { auth: state.auth };
 }
 

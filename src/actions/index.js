@@ -37,10 +37,10 @@ export function signInUser( { email, password } ){
             // redirect to secured resource
             browserHistory.push('/feature');
         })
-        .catch( (error) => {
+        .catch( () => {
             // if auth is bad then
             // present error message
-            dispatch(authError(error.response.data.error));
+            dispatch(authError('Wrong Email/Password combination'));
         });
 
 

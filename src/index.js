@@ -11,7 +11,8 @@ import Signup from './components/auth/signup';
 import Signout from './components/auth/signout';
 import Feature from './components/feature';
 import RequireAuth from './components/hoc/requireauth';
-import { UPDATE_AUTH } from './actions/types';
+import ClearError from './components/hoc/clearerror';
+import { UPDATE_AUTH, AUTH_ERROR } from './actions/types';
 
 import reducers from './reducers';
 
@@ -19,14 +20,18 @@ const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 
 const store = createStoreWithMiddleware(reducers);
 
-store.dispatch({ type: UPDATE_AUTH, payload: localStorage.getItem('token') !== null });
+const token = localStorage.getItem('token');
+
+if(token){
+  store.dispatch({ type: UPDATE_AUTH, payload: token !== null });
+}
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={ browserHistory }>
       <Route path="/" component={App} >
-        <Route path="signin" component={Signin} />
-        <Route path="signup" component={Signup} />
+        <Route path="signin" component={ ClearError(Signin) } />
+        <Route path="signup" component={ ClearError(Signup) } />
         <Route path="signout" component={Signout} />
         <Route path="feature" component={RequireAuth(Feature)} />
       </Route>
