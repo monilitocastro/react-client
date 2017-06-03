@@ -1,9 +1,29 @@
 import axios from 'axios';
 import { config } from '../../config';
 import { browserHistory } from 'react-router';
-import { AUTH_USER, AUTH_ERROR, SIGNOUT_USER } from './types';
+import { AUTH_USER, AUTH_ERROR, SIGNOUT_USER, REQUEST_RESOURCE } from './types';
 
-//TODO: updating auth state
+export function requestResource(){
+    return function(dispatch){
+        axios.get(`${config.API_ROOT_URL}/`, 
+            { 
+                headers:{
+                    authorization: localStorage.getItem('token')
+                }
+            })
+        .then(
+            response => {
+                console.log('REQ_RES RESPONSE: ', response);
+                dispatch( { type: REQUEST_RESOURCE, payload: response.data.message} );
+            }
+        )
+        .catch(
+            response => {
+            }
+        );
+    }
+}
+
 export function signInUser( { email, password } ){
     return function(dispatch){
         // submit email/password to server
@@ -17,10 +37,10 @@ export function signInUser( { email, password } ){
             // redirect to secured resource
             browserHistory.push('/feature');
         })
-        .catch( () => {
+        .catch( (error) => {
             // if auth is bad then
             // present error message
-            dispatch(authError('Bad Login Info'));
+            dispatch(authError(error.response.data.error));
         });
 
 
@@ -39,9 +59,8 @@ export function signUpUser( { email, password } ){
 
             browserHistory.push('/feature');
         } )
-        .catch( (response) => {
-            // console.log('ERR: ', response.statusText);
-            dispatch(authError( 'Sign up error' ));
+        .catch( (error) => {
+            dispatch(authError( error.response.data.error ));
         } );
     }
 }

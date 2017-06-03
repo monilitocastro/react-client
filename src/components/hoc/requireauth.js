@@ -8,7 +8,6 @@ export default function( OriginalComponent ){
             return <OriginalComponent {...this.props} />;
         }
         componentWillMount(){
-            console.log('THISPROPS: ', this.props);
             if(!this.props.authenticated){
                 browserHistory.push('/');
             }
@@ -25,7 +24,6 @@ export default function( OriginalComponent ){
     }
     
     function mapStateToProps(state){
-        console.log('STATE: ', state);
         return { authenticated: state.auth.authenticated };
     }
 
